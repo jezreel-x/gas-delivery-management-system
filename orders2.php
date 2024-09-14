@@ -1,0 +1,73 @@
+<?php
+
+  // connect to the database
+  $host = 'localhost';
+  $username = 'root';
+  $password = '!@#$%Rm3^&*()';
+  $database = 'mydb';
+
+  $connection = mysqli_connect($host, $username, $password, $database);
+
+  // check if the connection was successful
+  if (mysqli_connect_errno()) {
+    die('Failed to connect to MySQL: ' . mysqli_connect_error());
+  }
+
+
+  // get the ID number and phone number from the form
+  $issue = $_POST['issue'];
+  $reportAbuse = $_POST['reportAbuse'];
+
+
+
+  
+  // prepare the SQL query to check if the user exists in the database
+  $query = "SELECT * FROM reports";
+
+  // execute the query
+  $result = mysqli_query($connection, $query);
+
+  // check if the user already exists
+  /*
+  if (mysqli_num_rows($result) > 0) {
+
+    echo '<strong style="text-align: center;">User already exists!</strong>';
+
+  } else {
+  */
+    // prepare the SQL query to insert the data into the database
+    $insert = "INSERT INTO reports (Reports, Issues) 
+    VALUES ('$issue', '$reportAbuse')";
+
+    // execute the query
+    if (mysqli_query($connection, $insert)) {
+      echo '<strong>Report issued successfully! We shall see to it its resolved.</strong>';
+      /*
+      $_SESSION['id_number'] = $id_number;
+      header("Location: index3.html");
+      exit();
+      */
+    } else {
+      echo 'Error registering user: ' . mysqli_error($connection);
+    }
+
+  
+
+  // close the database connection
+  mysqli_close($connection);
+
+
+?>
+
+
+<!--
+<form method="POST">
+  <label for="id_number">ID Number:</label>
+  <input type="text" id="id_number" name="id_number">
+
+  <label for="phone_number">Phone Number:</label>
+  <input type="text" id="phone_number" name="phone_number">
+
+  <button type="submit">Submit</button>
+</form>
+-->
